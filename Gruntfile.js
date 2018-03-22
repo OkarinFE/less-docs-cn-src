@@ -76,6 +76,7 @@ module.exports = function(grunt) {
 
           // highlight.js options
           prefix: 'lang-'
+          
         }
       },
       site: {

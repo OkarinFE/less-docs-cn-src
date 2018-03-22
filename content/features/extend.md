@@ -301,9 +301,9 @@ _You can think of this mode of operation as essentially doing a non-destructive 
 
 
 ### Selector Interpolation with Extend
-> Extend is NOT able to match selectors with variables. If selector contains variable, extend will ignore it.
+> Extend is **not** able to match selectors with variables. If selector contains variable, extend will ignore it.
 
-There is a pending feature request for this but it is not an easy change.  However, extend can be attached to interpolated selector.
+However, extend can be attached to interpolated selector.
 
 Selector with variable will not be matched:
 
@@ -353,7 +353,7 @@ compiles to:
 
 ### Scoping / Extend Inside @media
 
-Extend written inside a media declaration should match only selectors inside the same media declaration:
+Currently, an `:extend` inside a `@media` declaration will only match selectors inside the same media declaration:
 
 ```less
 @media print {
@@ -391,7 +391,7 @@ compiles into:
 }
 ```
 
-Extend written inside a media declaration does not match selectors inside nested declaration:
+Note: extending does not match selectors inside a nested `@media` declaration:
 
 ```less
 @media screen {
@@ -404,7 +404,7 @@ Extend written inside a media declaration does not match selectors inside nested
 }
 ```
 
-compiles into:
+This compiles into:
 
 ```css
 @media screen and (min-width: 1023px) {

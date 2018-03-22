@@ -2,7 +2,8 @@
 // Theme Styles
 // --------------------------------------------------
 
-// Theme Variables
+
+// Theme variables
 @import "variables.less";
 @import "mixins.less";
 
@@ -20,10 +21,11 @@
 // and `(once)` applies.
 
 // Typography & Code
-@import "highlight-js/default.less";
+@import (less) "highlight-js/default.less";
 @import "typography.less";
+// @import "code-overrides.less";
 
-// Layout and Structure
+// Layout and structure
 @import "scaffolding.less";
 @import "ad.less";
 @import "banner.less";
@@ -33,6 +35,7 @@
 @import "team.less";
 @import "components/tables.less";
 @import "docs-content.less";
+@import "docs-section.less";
 
 // Navigation
 @import "sidebar.less";
@@ -45,6 +48,8 @@
 @import "anchors.less";
 @import "source-link.less";
 
-// Utility Classes
+
+
+// Utility classes
 @import "utilities.less";
 @import "responsive-utilities.less";

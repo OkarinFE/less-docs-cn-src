@@ -20,11 +20,11 @@ Crunch 2 is a cross-platform (Windows, Mac, and Linux) editor with integrated co
 
 ### [SimpLESS](http://wearekiss.com/simpless)
 
-> SimpLESS is a minimalistic Less compiler. Just drag, drop and compile.
+> SimpLess is a minimalistic Less compiler. Just drag, drop and compile.
 
-One of the unique features of SimpLESS is that it supports 'prefixing' your CSS by using [http://prefixr.com.](http://prefixr.com). SimpLESS is built on the Titanium platform. Get more info: [http://wearekiss.com/simpless](http://wearekiss.com/simpless)
+One of the unique features of SimpLess is that it supports 'prefixing' your CSS by using [http://prefixr.com.](http://prefixr.com). SimpLess is built on the Titanium platform. Get more info: [http://wearekiss.com/simpless](http://wearekiss.com/simpless)
 
-![SimpLESS screenshot](http://wearekiss.com/lib/img/simpless/app-windows.png?1)
+![SimpLess screenshot](http://wearekiss.com/lib/img/simpless/app-windows.png?1)
 
 
 ### [Koala](http://koala-app.com/)

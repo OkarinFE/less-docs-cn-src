@@ -7,21 +7,49 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a href="{{rel '.'}}/#" class="navbar-brand" alt="Less">
-        <img src="{{assets}}/img/logo.png">
-      </a>
     </div>
     <nav class="collapse navbar-collapse bs-navbar-collapse" role="navigation">
       <ul class="nav navbar-nav">
-        {{#is slug 'features'}}
+        {{#is slug 'index'}}
         <li class="active">
-          <span>Language Features</span>
+          <span>Overview</span>
         </li>
         {{else}}
         <li>
-          <a href="{{rel 'features'}}/">Language Features</a>
+          <a href="{{rel '.'}}/#">Overview</a>
         </li>
         {{/is}}
+
+        {{#is slug 'usage'}}
+        <li class="active">
+          <span>Using Less.js</span>
+        </li>
+        {{else}}
+        <li>
+          <a href="{{rel 'usage'}}/">Using Less.js</a>
+        </li>
+        {{/is}}
+
+        {{#is slug 'functions'}}
+        <li class="active">
+          <span>Functions</span>
+        </li>
+        {{else}}
+        <li>
+          <a href="{{rel 'functions'}}/">Functions</a>
+        </li>
+        {{/is}}
+
+        {{#is slug 'features'}}
+        <li class="active">
+          <span>In-Depth Guide</span>
+        </li>
+        {{else}}
+        <li>
+          <a href="{{rel 'features'}}/">In-Depth Guide</a>
+        </li>
+        {{/is}}
+
         {{#is links.plugins true}}
         {{#is slug 'plugins'}}
         <li class="active">
@@ -33,27 +61,18 @@
         </li>
         {{/is}}        
         {{/is}}
-        {{#is slug 'functions'}}
+
+        {{#is slug 'tools'}}
         <li class="active">
-          <span>Function Reference</span>
+          <span>Tools</span>
         </li>
         {{else}}
         <li>
-          <a href="{{rel 'functions'}}/">Function Reference</a>
-        </li>
-        {{/is}}        
-       {{#is slug 'usage'}}
-        <li class="active">
-          <span>Usage</span>
-        </li>
-        {{else}}
-        <li>
-          <a href="{{rel 'usage'}}/">Usage</a>
+          <a href="{{rel 'tools'}}/">Tools</a>
         </li>
         {{/is}}
-        <li>
-          <a href="{{site.onlineeditor}}">Try it</a>
-        </li>
+
+       
         {{#is links.cheatsheet true}}
         {{#is slug 'cheatsheet'}}
         <li class="active">
@@ -77,16 +96,7 @@
           <a href="{{rel 'blog'}}/">Blog</a>
         </li>
         {{/is}}        
-        {{/is}}       
-        {{#is slug 'about'}}
-        <li class="active">
-          <span>About</span>
-        </li>
-        {{else}}
-        <li>
-          <a href="{{rel 'about'}}/">About</a>
-        </li>
-        {{/is}}   
+        {{/is}}
         
         <li class="dropdown">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown">GitHub <b class="caret"></b></a>

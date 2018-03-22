@@ -47,7 +47,7 @@ The examples above focused on using variables to control _values in CSS rules_, 
 
 #### Selectors
 
-Version: 1.4.0
+_v1.4.0_
 
 ```less
 // Variables
@@ -70,7 +70,7 @@ Compiles to:
 }
 ```
 
-### URLs
+#### URLs
 
 ```less
 // Variables
@@ -85,7 +85,7 @@ body {
 
 #### Import Statements
 
-Version: 1.4.0
+_v1.4.0_
 
 Syntax: `@import "@{themes}/tidal-wave.less";`
 
@@ -103,7 +103,7 @@ Example:
 
 #### Properties
 
-Version: 1.6.0
+_v1.6.0_
 
 ```less
 @property: color;
@@ -123,27 +123,36 @@ Compiles to:
 }
 ```
 
-### Variable Names
+### Variable Variables
 
-It is also possible to define variables with a variable name:
+In Less, you can define a variable's name using another variable.
 
 ```less
-@fnord:  "I am fnord.";
-@var:    "fnord";
-content: @@var;
+@primary:  green;
+@secondary: blue;
+
+.section {
+  @color: primary;
+  
+  .element {
+    color: @@color;
+  }
+}
 ```
 
 Which compiles to:
 
-```
-content: "I am fnord.";
+```less
+.section .element {
+  color: green;
+}
 ```
 
 <span class="anchor-target" id="variables-feature-lazy-loading"></span>
 <!-- ^ please keep old anchor to not break zillion outer links -->
 ### Lazy Evaluation
 
-> Variables are lazy evaluated and do not have to be declared before being used.
+> Variables do not have to be declared before being used.
 
 Valid Less snippet:
 
@@ -158,7 +167,7 @@ Valid Less snippet:
 this is valid Less too:
 
 ```less
-.lazy-eval-scope {
+.lazy-eval {
   width: @var;
   @a: 9%;
 }
@@ -169,12 +178,12 @@ this is valid Less too:
 both compile into:
 
 ```css
-.lazy-eval-scope {
+.lazy-eval {
   width: 9%;
 }
 ```
 
-When defining a variable twice, the last definition of the variable is used, searching from the current scope upwards. This is similar to CSS itself where the last property inside a definition is used to determine the value.
+When defining a variable twice, the last definition of the variable is used, searching from the current scope upwards. This is similar to css itself where the last property inside a definition is used to determine the value.
 
 For instance:
 
@@ -201,6 +210,53 @@ Compiles to:
 }
 ```
 
+### Properties as Variables **(NEW!)**
+
+_v3.0.0_
+
+You can easily treat properties like variables using the `$prop` syntax. Sometimes this can
+make your code a little lighter.
+
+```less
+.widget {
+  color: #efefef;
+  background-color: $color;
+}
+```
+
+Compiles to:
+
+```css
+.widget {
+  color: #efefef;
+  background-color: #efefef;
+}
+```
+
+Note that, like variables, Less will choose the last property within the current/parent scope
+as being the "final" value.
+
+```less
+.block {
+  color: red; 
+  .inner {
+    background-color: $color; 
+  }
+  color: blue;  
+} 
+```
+
+Compiles to:
+```css
+.block {
+  color: red; 
+  color: blue;  
+} 
+.block .inner {
+  background-color: blue; 
+}
+```
+
 ### Default Variables
 
 We sometimes get requests for default variables - an ability to set a variable only if it is not already set. This feature is not required because you can easily override a variable by putting the definition afterwards.
@@ -217,4 +273,4 @@ For instance:
 @base-color: red;
 ```
 
-This works fine because of [Lazy Loading](#variables-feature-lazy-loading) - base-color is overridden and dark-color is a dark red.
+This works fine because of [Lazy Loading](#variables-feature-lazy-loading) - `@base-color` is overridden and `@dark-color` is a dark red.
