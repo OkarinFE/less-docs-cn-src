@@ -1,6 +1,6 @@
-> Extend是Less的一个伪类，它会把所选择的选择器与它所引用的选择器进行合并。
+> Extend is a Less pseudo-class which merges the selector it is put on with ones that match what it references.
 
-发布[v1.4.0]({{ less.master.url }}CHANGELOG.md)
+Released [v1.4.0]({{ less.master.url }}CHANGELOG.md)
 
 ```less
 nav ul {
@@ -9,9 +9,9 @@ nav ul {
 }
 ```
 
-在上面的规则集中，`:extend`选择器会将“扩展选择器”（`nav ul`）应用到 `.inline` class _出现的 `.inline` class中_ 。 声明块将保持原样，并不会直接添加extend中的属性（因为extend不是css）
+In the rule set above, the `:extend` selector will apply the "extending selector" (`nav ul`) onto the `.inline` class _wherever the `.inline` class appears_. The declaration block will be kept as-is, but without any reference to the extend (because extend isn't css).
 
-如下：
+So the following:
 
 ```less
 nav ul {
@@ -23,7 +23,7 @@ nav ul {
 }
 ```
 
-编译为
+Outputs
 
 ```css
 nav ul {
@@ -35,17 +35,17 @@ nav ul {
 }
 ```
 
-注意`nav ul:extend(.inline)`选择器如何在保持还是`nav ul`时输出结果 - 在输出之前将extend移除，而选择器块保持原样。 如果没有任何属性放在该块中，则会从输出中移除（但extend仍然可能会影响其他选择器）。
+Notice how the `nav ul:extend(.inline)` selector gets output as `nav ul` - the extend gets removed before output and the selector block left as-is. If no properties are put in that block then it gets removed from the output (but the extend still may affect other selectors).
 
-### 1.Extend 语法
-extend要么附加到选择器，要么放在规则集中。 它看起来像一个带有选择器参数的伪类，可搭配关键字`all`：
+### Extend Syntax
+The extend is either attached to a selector or placed into a ruleset. It looks like a pseudo-class with selector parameter optionally followed by the keyword `all`:
 
-例子:
+Example:
 
 ```less
 .a:extend(.b) {}
 
-// 上面和下面的会得到同样的结果。
+// the above block does the same thing as the below block
 .a {
   &:extend(.b);
 }
@@ -53,48 +53,48 @@ extend要么附加到选择器，要么放在规则集中。 它看起来像一�
 
 ```less
 .c:extend(.d all) {
-  // extend “.d”的所有实例，例如 “.x.d”或“.d.x”。
+  // extends all instances of ".d" e.g. ".x.d" or ".d.x"
 }
 .c:extend(.d) {
-  // ".d"仅继承实例将被输出为“.d”的选择器。
+  // extends only instances where the selector will be output as just ".d"
 }
 ```
 
-可以继承包含一个或多个类，以逗号分隔。
+It can contain one or more classes to extend, separated by commas.
 
-例如：
+Example:
 
 ```less
 .e:extend(.f) {}
 .e:extend(.g) {}
 
-// 上面和下面的将会得到同样的结果。
+// the above an the below do the same thing
 .e:extend(.f, .g) {}
 ```
 
-### 2.Extend 附加到选择器
-Extend附加到选择器看起来像一个普通的伪类带选择器作为参数。 一个选择器可以包含多个extend子句，但所有的extend必须在选择器的末尾。
+### Extend Attached to Selector
+Extend attached to a selector looks like an ordinary pseudo-class with selector as a parameter. A selector can contain multiple extend clauses, but all extends must be at the end of the selector.
 
-* 在选择器之后Extend： `pre:hover:extend(div pre)`.
-* 选择器和Extend之间允许有空格： `pre:hover :extend(div pre)`.
-* 运行多个Extend: `pre:hover:extend(div pre):extend(.bucket tr)` - 请注意，这是相同的 `pre:hover:extend(div pre, .bucket tr)`
-* 这是不允许的： `pre:hover:extend(div pre).nth-child(odd)`. Extend必须在末尾。
+* Extend after the selector: `pre:hover:extend(div pre)`.
+* Space between selector and extend is allowed: `pre:hover :extend(div pre)`.
+* Multiple extends are allowed: `pre:hover:extend(div pre):extend(.bucket tr)` - Note this is the same as `pre:hover:extend(div pre, .bucket tr)`
+* This is NOT allowed: `pre:hover:extend(div pre).nth-child(odd)`. Extend must be last.
 
-如果一个规则集包含多个Extend，它们中的任何一个都可以有个Extend关键字。 多个带有Extend的选择器在一个规则集中：
+If a ruleset contains multiple selectors, any of them can have the extend keyword. Multiple selectors with extend in one ruleset:
 
 ```less
 .big-division,
 .big-bag:extend(.bag),
 .big-bucket:extend(.bucket) {
-  // 主体
+  // body
 }
 ```
 
-### 3.Extend 在规则集中
-Extend 可以被放在一个规则集的主体中通过使用 `&:extend(selector)` 语法。将Extend放到主体中就是将其放到该规则集的每个选择器中的快捷方式。
+### Extend Inside Ruleset
+Extend can be placed into a ruleset's body using `&:extend(selector)` syntax. Placing extend into a body is a shortcut for placing it into every single selector of that ruleset.
 
 
-Extend 在一个主体中：
+Extend inside a body:
 
 ```less
 pre:hover,
@@ -103,27 +103,27 @@ pre:hover,
 }
 ```
 
-与每个选择器之后添加Extend完全相同：
+is exactly the same as adding an extend after each selector:
 
 ```less
 pre:hover:extend(div pre),
 .some-class:extend(div pre) {}
 ```
 
-### 4.Extend 嵌套选择器
-Extend能够匹配嵌套的选择器。 如下：
+### Extending Nested Selectors
+Extend is able to match nested selectors. Following less:
 
-例子：
+Example:
 
 ```less
 .bucket {
-  tr { // 与目标选择器嵌套的规则集
+  tr { // nested ruleset with target selector
     color: blue;
   }
 }
-.some-class:extend(.bucket tr) {} // 嵌套的规则集被识别
+.some-class:extend(.bucket tr) {} // nested ruleset is recognized
 ```
-编译为
+Outputs
 
 ```css
 .bucket tr,
@@ -132,20 +132,20 @@ Extend能够匹配嵌套的选择器。 如下：
 }
 ```
 
-Extend本质上接受的是编译后的CSS，而不是原始的Less。
+Essentially the extend looks at the compiled css, not the original less.
 
-例如:
+Example:
 
 ```less
 .bucket {
-  tr & { // 与目标选择器嵌套的规则集
+  tr & { // nested ruleset with target selector
     color: blue;
   }
 }
-.some-class:extend(tr .bucket) {} // 嵌套的规则集被识别
+.some-class:extend(tr .bucket) {} // nested ruleset is recognized
 ```
 
-编译为
+Outputs
 
 ```css
 tr .bucket,
@@ -155,10 +155,10 @@ tr .bucket,
 ```
 
 
-### 5.Extend 精确匹配
-在默认情况下Extend会查找精确匹配到的选择器。 无论选择者器是否使用通配符`*`，或者两个nth表达式是否具有相同的含义，它们都需要具有相同的形式才能被匹配。 唯一的例外是属性选择器中的单引号和双引号，less知道它们具有相同的含义并会匹配它们。
+### Exact Matching with Extend
+Extend by default looks for exact match between selectors. It does matter whether selector uses leading star or not. It does not matter that two nth-expressions have the same meaning, they need to have to same form in order to be matched. The only exception are quotes in attribute selector, less knows they have the same meaning and matches them.
 
-例如:
+Example:
 
 ```less
 .a.class,
@@ -166,19 +166,19 @@ tr .bucket,
 .class > .a {
   color: blue;
 }
-.test:extend(.class) {} // 以上选择器都不会被匹配
+.test:extend(.class) {} // this will NOT match the any selectors above
 ```
 
-带通配符不会被匹配。 虽然 `*.class` 和 `.class` 是一样的效果, 但是 extend 不会匹配它们:
+Leading star does matter. Selectors `*.class` and `.class` are equivalent, but extend will not match them:
 
 ```less
 *.class {
   color: blue;
 }
-.noStar:extend(.class) {} //  *.class 将不会被匹配
+.noStar:extend(.class) {} // this will NOT match the *.class selector
 ```
 
-编译为
+Outputs
 
 ```css
 *.class {
@@ -186,7 +186,7 @@ tr .bucket,
 }
 ```
 
-伪类的顺序很重要。选择器 `link:hover:visited` 和 `link:visited:hover` 会匹配相同的一组元素，但是对于extend，它们是不同的：
+Order of pseudo-classes does matter. Selectors `link:hover:visited` and `link:visited:hover` match the same set of elements, but extend treats them as different:
 
 ```less
 link:hover:visited {
@@ -194,7 +194,7 @@ link:hover:visited {
 }
 .selector:extend(link:visited:hover) {}
 ```
-编译为
+Outputs
 
 ```css
 link:hover:visited {
@@ -202,9 +202,9 @@ link:hover:visited {
 }
 ```
 
-### 6.nth 表达式
+### nth Expression
 
-Nth 表达形式很重要。 Nth表达式 `1n+3` 和 `n+3`是一样的效果，但是 extend 不会匹配它们：
+Nth expression form does matter. Nth-expressions `1n+3` and `n+3` are equivalent, but extend will not match them:
 
 ```less
 :nth-child(1n+3) {
@@ -212,7 +212,7 @@ Nth 表达形式很重要。 Nth表达式 `1n+3` 和 `n+3`是一样的效果，�
 }
 .child:extend(:nth-child(n+3)) {}
 ```
-编译为
+Outputs
 
 ```css
 :nth-child(1n+3) {
@@ -220,7 +220,7 @@ Nth 表达形式很重要。 Nth表达式 `1n+3` 和 `n+3`是一样的效果，�
 }
 ```
 
-在属性选择器中的引号为''或""或为空都没有关系。 以上它们都是一样的效果：
+Quote type in attribute selector does not matter. All of the following are equivalent.
 
 ```less
 [title=identifier] {
@@ -237,7 +237,7 @@ Nth 表达形式很重要。 Nth表达式 `1n+3` 和 `n+3`是一样的效果，�
 .singleQuote:extend([title='identifier']) {}
 .doubleQuote:extend([title="identifier"]) {}
 ```
-编译为
+Outputs
 
 ```css
 [title=identifier],
@@ -262,11 +262,11 @@ Nth 表达形式很重要。 Nth表达式 `1n+3` 和 `n+3`是一样的效果，�
 }
 ```
 
-### 7.Extend "all"
+### Extend "all"
 
-当使用关键字all在extend参数的最后时，Less会将其作为另一个选择器的一部分匹配该选择器。选择器将被复制，只有选择器匹配部分将被替换为extend，同时创建一个新的选择器。
+When you specify the all keyword last in an extend argument it tells Less to match that selector as part of another selector. The selector will be copied and the matched part of the selector only will then be replaced with the extend, making a new selector.
 
-例如：
+Example:
 
 ```less
 .a.b.test,
@@ -282,7 +282,7 @@ Nth 表达形式很重要。 Nth表达式 `1n+3` 和 `n+3`是一样的效果，�
 .replacement:extend(.test all) {}
 ```
 
-编译为
+Outputs
 
 ```css
 .a.b.test,
@@ -297,35 +297,35 @@ Nth 表达形式很重要。 Nth表达式 `1n+3` 和 `n+3`是一样的效果，�
 }
 ```
 
-_你可以把这种操作模式看作是一个非破坏性的搜索和替换。_
+_You can think of this mode of operation as essentially doing a non-destructive search and replace._
 
 
-### 8.选择器中插入Extend
-> Extend 不能匹配带变量的选择器. 如果选择器中带有变量, 将会被extend忽略。
+### Selector Interpolation with Extend
+> Extend is NOT able to match selectors with variables. If selector contains variable, extend will ignore it.
 
-有一个悬而未决的提案，同时也不会轻易改变。 但是，extend可以附加到被插值的选择器。
+There is a pending feature request for this but it is not an easy change.  However, extend can be attached to interpolated selector.
 
-带变量的选择器将不会被匹配：
+Selector with variable will not be matched:
 
 ```less
 @variable: .bucket;
-@{variable} { // 被插值的选择器
+@{variable} { // interpolated selector
   color: blue;
 }
-.some-class:extend(.bucket) {} // 不会被匹配
+.some-class:extend(.bucket) {} // does nothing, no match is found
 ```
 
-同时在目标选择器中使用变量也不会被extend匹配到：
+and extend with variable in target selector matches nothing:
 
 ```less
 .bucket {
   color: blue;
 }
-.some-class:extend(@{variable}) {} // 被插值的选择器不会被匹配
+.some-class:extend(@{variable}) {} // interpolated selector matches nothing
 @variable: .bucket;
 ```
 
-上述两个例子都编译成：
+Both of the above examples compile into:
 
 ```less
 .bucket {
@@ -333,7 +333,7 @@ _你可以把这种操作模式看作是一个非破坏性的搜索和替换。_
 }
 ```
 
-然而, `:extend` 附加到一个被插值得选择器上是可以有效的：
+However, `:extend` attached to an interpolated selector works:
 
 ```less
 .bucket {
@@ -343,7 +343,7 @@ _你可以把这种操作模式看作是一个非破坏性的搜索和替换。_
 @variable: .selector;
 ```
 
-编译为
+compiles to:
 
 ```less
 .bucket, .selector {
@@ -351,132 +351,133 @@ _你可以把这种操作模式看作是一个非破坏性的搜索和替换。_
 }
 ```
 
-### 9.作用于 / 在@media中使用Extend
+### Scoping / Extend Inside @media
 
-在媒体查询中声明Extend只匹配同一媒体查询中的选择器：
+Extend written inside a media declaration should match only selectors inside the same media declaration:
 
 ```less
 @media print {
-  .screenClass:extend(.selector) {} // 在@media中使用Extend
-  .selector { // 会被匹配 - 在同一个媒体查询中
+  .screenClass:extend(.selector) {} // extend inside media
+  .selector { // this will be matched - it is in the same media
     color: black;
   }
 }
-.selector { // 规则集在样式表的顶部 - extend会忽略它
+.selector { // ruleset on top of style sheet - extend ignores it
   color: red;
 }
 @media screen {
-  .selector {  // 规则集在另一个媒体查询中 - extend会忽略它
+  .selector {  // ruleset inside another media - extend ignores it
     color: blue;
   }
 }
 ```
 
-编译为
+compiles into:
 
 ```css
 @media print {
   .selector,
-  .screenClass { /*  在同一个媒体查询中的规则集将会被集成 */
+  .screenClass { /*  ruleset inside the same media was extended */
     color: black;
   }
 }
-.selector { /* 规则集在样式表的顶部被忽略 */
+.selector { /* ruleset on top of style sheet was ignored */
   color: red;
 }
 @media screen {
-  .selector { /* 规则集在另一个媒体查询中被忽略 */
+  .selector { /* ruleset inside another media was ignored */
     color: blue;
   }
 }
 ```
 
-Extend在媒体查询中不会匹配媒体查询中嵌套的选择器：
+Extend written inside a media declaration does not match selectors inside nested declaration:
 
 ```less
 @media screen {
-  .screenClass:extend(.selector) {} // extend在媒体查询中
-    .selector {  //规则集在媒体查询的嵌套中- extend会忽略它
+  .screenClass:extend(.selector) {} // extend inside media
+  @media (min-width: 1023px) {
+    .selector {  // ruleset inside nested media - extend ignores it
       color: blue;
     }
   }
 }
 ```
 
-编译为
+compiles into:
 
 ```css
 @media screen and (min-width: 1023px) {
-  .selector { /* 规则集在另一个媒体查询的嵌套中，会被忽略 */
+  .selector { /* ruleset inside another nested media was ignored */
     color: blue;
   }
 }
 ```
 
-顶级的extend会匹配包括嵌套在媒体查询内的所有选择器：
+Top level extend matches everything including selectors inside nested media:
 
 ```less
 @media screen {
-  .selector {  /* 规则集嵌套在媒体查询中 - 顶级 extend 有效 */
+  .selector {  /* ruleset inside nested media - top level extend works */
     color: blue;
   }
   @media (min-width: 1023px) {
-    .selector {  /* 规则集嵌套在媒体查询中 - 顶级 extend 有效 */
+    .selector {  /* ruleset inside nested media - top level extend works */
       color: blue;
     }
   }
 }
 
-.topLevel:extend(.selector) {} /* 顶级 extend都会匹配 */
+.topLevel:extend(.selector) {} /* top level extend matches everything */
 ```
 
-编译为
+compiles into:
 
 ```css
 @media screen {
   .selector,
-  .topLevel { /* 在媒体查询中的规则集会被继承 */
+  .topLevel { /* ruleset inside media was extended */
     color: blue;
   }
 }
 @media screen and (min-width: 1023px) {
   .selector,
-  .topLevel { /* 在媒体查询中的规则集会被继承 */
+  .topLevel { /* ruleset inside nested media was extended */
     color: blue;
   }
 }
 ```
 
-### 10.重复检测
+### Duplication Detection
 
-目前没有重复检测。
+Currently there is no duplication detection.
 
-例如:
+Example:
 
 ```less
 .alert-info,
 .widget {
-  /* 声明 */
+  /* declarations */
 }
 
 .alert:extend(.alert-info, .widget) {}
 ```
-编译为
+Outputs
 
 ```css
 .alert-info,
 .widget,
 .alert,
 .alert {
-  /* 声明 */
+  /* declarations */
 }
 ```
 
-### 11.Extend用例
+### Use Cases for Extend
 
-#### 11.1经典用例
+#### Classic Use Case
 
-其中一个经典用例是避免添加一个基本class。 例如：
+The classic use case is to avoid adding a base class. For example, if you have
 
 ```css
 .animal {
@@ -485,7 +486,7 @@ Extend在媒体查询中不会匹配媒体查询中嵌套的选择器：
 }
 ```
 
-你希望有一个animal子类型并覆盖其背景颜色，那么你有两个选择，首先，一种是改变你的HTML
+and you want to have a subtype of animal which overrides the background color then you have two options, firstly change your HTML
 
 ```html
 <a class="animal bear">Bear</a>
@@ -500,7 +501,7 @@ Extend在媒体查询中不会匹配媒体查询中嵌套的选择器：
 }
 ```
 
-或着简化HTML和在Less中使用Extend。 例如：
+or have simplified html and use extend in your less. e.g.
 
 ```html
 <a class="bear">Bear</a>
@@ -517,11 +518,11 @@ Extend在媒体查询中不会匹配媒体查询中嵌套的选择器：
 }
 ```
 
-#### 11.2减少CSS大小
+#### Reducing CSS Size
 
-Mixins会将所有的属性复制到一个选择器，这可能会导致不必要的重复。 因此，可以使用Extend替代Mixins，将选择器移动到希望使用的属性上，这样会生成较少的CSS。
+Mixins copy all of the properties into a selector, which can lead to unnecessary duplication. Therefore you can use extends instead of mixins to move the selector up to the properties you wish to use, which leads to less CSS being generated.
 
-例子 - 使用 Mixin：
+Example - with mixin:
 
 ```less
 .my-inline-block() {
@@ -536,7 +537,7 @@ Mixins会将所有的属性复制到一个选择器，这可能会导致不必�
 }
 ```
 
-输出为
+Outputs
 
 ```css
 .thing1 {
@@ -549,7 +550,7 @@ Mixins会将所有的属性复制到一个选择器，这可能会导致不必�
 }
 ```
 
-例子 - 使用 Extend：
+Example (with extends):
 
 ```less
 .my-inline-block {
@@ -564,7 +565,7 @@ Mixins会将所有的属性复制到一个选择器，这可能会导致不必�
 }
 ```
 
-编译为
+Outputs
 
 ```css
 .my-inline-block,
@@ -575,17 +576,17 @@ Mixins会将所有的属性复制到一个选择器，这可能会导致不必�
 }
 ```
 
-#### 11.3样式组合 / 更先进的 Mixin
+#### Combining Styles / A More Advanced Mixin
 
-还有一个用例是替代mixin - 因为mixins只能与简单的选择器一起使用，如果你有两个不同的html块，但是需要使用相同的样式，你可以使用extends来关联两个区域。
+Another use-case is as an alternative for a mixin - because mixins can only be used with simple selectors, if you have two different blocks of html, but need to apply the same styles to both you can use extends to relate two areas.
 
-例如:
+Example:
 
 ```less
 li.list > a {
-  // list 样式
+  // list styles
 }
 button.list-style {
-  &:extend(li.list > a); // 使用同样的 list 样式
+  &:extend(li.list > a); // use the same list styles
 }
 ```

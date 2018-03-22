@@ -1,12 +1,12 @@
 ### isnumber
 
-> 如果值为数字返回 `true`，否则返回`false`。
+> Returns `true` if a value is a number, `false` otherwise.
 
-参数: `value` - 需要被判断的值或变量。
+Parameters: `value` - a value or variable being evaluated.
 
-返回值: 如果值为数字返回 `true`，否则返回`false`。
+Returns: `true` if value is a number, `false` otherwise.
 
-示例:
+Example:
 
 ```less
 isnumber(#ff0);     // false
@@ -22,13 +22,13 @@ isnumber(url(...)); // false
 
 ### isstring
 
->  如果值为字符串返回 `true`，否则返回`false`。
+> Returns `true` if a value is a string, `false` otherwise.
 
-参数: `value` - 需要被判断的值或变量。
+Parameters: `value` - a value or variable being evaluated.
 
-返回值: 如果值为字符串返回 `true`，否则返回`false`。
+Returns: `true` if value is a string, `false` otherwise.
 
-示例:
+Example:
 
 ```less
 isstring(#ff0);     // false
@@ -44,13 +44,13 @@ isstring(url(...)); // false
 
 ### iscolor
 
->  如果值为颜色返回 `true`，否则返回`false`。
+> Returns `true` if a value is a color, `false` otherwise.
 
-参数: `value` - 需要被判断的值或变量。
+Parameters: `value` - a value or variable being evaluated.
 
-返回值: 如果值为颜色返回 `true`，否则返回`false`。
+Returns: `true` if value is a color, `false` otherwise.
 
-示例:
+Example:
 
 ```less
 iscolor(#ff0);     // true
@@ -66,13 +66,13 @@ iscolor(url(...)); // false
 
 ### iskeyword
 
-> 如果值是关键字返回`true`，否则返回`false`。
+> Returns `true` if a value is a keyword, `false` otherwise.
 
-参数: `value` - 需要被判断的值或变量。
+Parameters: `value` - a value or variable being evaluated.
 
-返回值: 如果值为关键字返回 `true`，否则返回`false`。
+Returns: `true` if value is a keyword, `false` otherwise.
 
-示例:
+Example:
 
 ```less
 iskeyword(#ff0);     // false
@@ -88,13 +88,13 @@ iskeyword(url(...)); // false
 
 ### isurl
 
-> 如果值是url返回`true`，否则返回`false`。
+> Returns `true` if a value is a url, `false` otherwise.
 
-参数: `value` - 需要被判断的值或变量。
+Parameters: `value` - a value or variable being evaluated.
 
-返回值: 如果值是url返回`true`，否则返回`false`。
+Returns: `true` if value is a url, `false` otherwise.
 
-示例:
+Example:
 
 ```less
 isurl(#ff0);     // false
@@ -110,13 +110,13 @@ isurl(url(...)); // true
 
 ### ispixel
 
-> 如果值是像素返回`true`，否则返回`false`。
+> Returns `true` if a value is a number in pixels, `false` otherwise.
 
-参数: `value` - 需要被判断的值或变量。
+Parameters: `value` - a value or variable being evaluated.
 
-返回值: 如果值是像素返回`true`，否则返回`false`。
+Returns: `true` if value is a pixel, `false` otherwise.
 
-示例:
+Example:
 
 ```less
 ispixel(#ff0);     // false
@@ -132,13 +132,13 @@ ispixel(url(...)); // false
 
 ### isem
 
-> 如果是一个em值返回`true`，否则返回`false`。
+> Returns `true` if a value is an em value, `false` otherwise.
 
-参数: `value` - 需要被判断的值或变量。
+Parameters: `value` - a value or variable being evaluated.
 
-返回值: 如果是一个em值返回`true`，否则返回`false`。
+Returns: `true` if value is an em value, `false` otherwise.
 
-示例:
+Example:
 
 ```less
 isem(#ff0);     // false
@@ -154,13 +154,13 @@ isem(url(...)); // false
 
 ### ispercentage
 
-> 如果是一个百分比值返回`true`，否则返回`false`。
+> Returns `true` if a value is a percentage value, `false` otherwise.
 
-参数: `value` - 需要被判断的值或变量。
+Parameters: `value` - a value or variable being evaluated.
 
-返回值: 如果是一个百分比值返回`true`，否则返回`false`。
+Returns: `true` if value is a percentage value, `false` otherwise.
 
-示例:
+Example:
 
 ```less
 ispercentage(#ff0);     // false
@@ -176,15 +176,15 @@ ispercentage(url(...)); // false
 
 ### isunit
 
-> 如果值是以指定单位表示的数字，则返回`true`，否则返回`false`。
+> Returns `true` if a value is a number in specified units, `false` otherwise.
 
-参数:
-* `value` - 需要被判断的值或变量。
-* `unit` - 用一个单位标识符（可选引用）测试。
+Parameters:
+* `value` - a value or variable being evaluated.
+* `unit` - a unit identifier (optionally quoted) to test for.
 
-如果值是以指定单位表示的数字，则返回`true`，否则返回`false`。
+Returns: `true` if value is a number in specified units, `false` otherwise.
 
-示例:
+Example:
 
 ```less
 isunit(11px, px);  // true
@@ -201,14 +201,14 @@ isunit("mm", mm);  // false
 
 ### isruleset
 
-> 如果某个值是规则集，则返回`true`;否则返回`false`。
+> Returns `true` if a value is a ruleset, `false` otherwise.
 
-参数:
-* `value` - 需要被判断的变量。
+Parameters:
+* `value` - a variable being evaluated.
 
-返回值: 如果值是一个规则集，则为`true`，否则为`false`。
+Returns: `true` if value is a ruleset, `false` otherwise.
 
-示例:
+Example:
 
 ```less
 @rules: {

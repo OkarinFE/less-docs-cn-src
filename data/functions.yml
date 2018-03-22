@@ -11,39 +11,39 @@ base: content/functions
 
 published:
   misc-functions:
-    title: 杂项函数
+    title: Misc Functions
     files: <%= functions.base %>/misc-functions.md
 
   string-functions:
-    title: 字符串函数
+    title: String Functions
     files: <%= functions.base %>/string-functions.md
 
   list-functions:
-    title: 列表函数
+    title: List Functions
     files: <%= functions.base %>/list-functions.md
 
   math-functions:
-    title: 数学函数
+    title: Math Functions
     files: <%= functions.base %>/math-functions.md
 
   type-functions:
-    title: 类型函数
+    title: Type Functions
     files: <%= functions.base %>/type-functions.md
 
   color-definition:
-    title: 颜色定义函数
+    title: Color Definition Functions
     files: <%= functions.base %>/color-definition.md
 
   color-channel:
-    title: 颜色通道函数
+    title: Color Channel Functions
     files: <%= functions.base %>/color-channel.md
 
   color-operations:
-    title: 颜色操作函数
+    title: Color Operation Functions
     files: <%= functions.base %>/color-operations.md
 
   color-blending:
-    title: 颜色混合函数
+    title: Color Blending Functions
     files: <%= functions.base %>/color-blending.md
 
 

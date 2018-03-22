@@ -12,16 +12,16 @@ base: content/features
 # Published documenation
 published:
   features-overview:
-    title: 概览
+    title: Overview
     lead:  Simple overview of the basic features
     files: content/features-overview.md
 
   variables:
-    title: 变量
+    title: Variables
     files: <%= features.base %>/variables.md
 
   extend:
-    title: 继承
+    title: Extend
     files: <%= features.base %>/extend.md
 
   mixins:
@@ -29,19 +29,19 @@ published:
     files: <%= features.base %>/mixins.md
 
   mixins-parametric:
-    title: Mixins参数
+    title: Parametric Mixins
     files: <%= features.base %>/mixins-parametric.md
 
   mixins-as-functions:
-    title: Mixins函数
+    title: Mixins as Functions
     files: <%= features.base %>/mixins-as-functions.md
 
   detached-rulesets:
-    title: 将规则集传递给Mixins
+    title: Passing Rulesets to Mixins
     files: <%= features.base %>/detached-rulesets.md
 
   import-directives:
-    title: import指令
+    title: Import Directives
     files: <%= features.base %>/import-directives.md
 
   mixin-guards:
@@ -53,15 +53,15 @@ published:
     files: <%= features.base %>/css-guards.md
 
   loops:
-    title: 循环
+    title: Loops
     files: <%= features.base %>/loops.md
 
   merge:
-    title: 合并
+    title: Merge
     files: <%= features.base %>/merge.md
 
   parent-selectors:
-    title: 父选择器
+    title: Parent Selectors
     files: <%= features.base %>/parent-selectors.md
 
 

@@ -1,14 +1,10 @@
-> 附带条件的 mixins
+> Conditional mixins
 
 Guards are useful when you want to match on _expressions_, as opposed to simple values or arity. If you are familiar with functional programming, you have probably encountered them already.
 
-当你想在匹配_表达式_，而不是简单的值或数量时，Guard很有。 如果你熟悉函数式编程，你可能已经遇到过它们了。
-
 In trying to stay as close as possible to the declarative nature of CSS, Less has opted to implement conditional execution via **guarded mixins** instead of `if`/`else` statements, in the vein of `@media` query feature specifications.
 
-为了尽量保持CSS的声明性，Less选择通过**guarded mixins**而不是`if` /`else`语句来实现条件执行的格式。
-
-从一个例子开始：
+Let's start with an example:
 
 ```less
 .mixin (@a) when (lightness(@a) >= 50%) {
@@ -22,14 +18,14 @@ In trying to stay as close as possible to the declarative nature of CSS, Less ha
 }
 ```
 
-关键是`when`关键字，它引入了一个guard序列（这里只有一个guard）。 如果我们运行下面的代码：
+The key is the `when` keyword, which introduces a guard sequence (here with only one guard). Now if we run the following code:
 
 ```less
 .class1 { .mixin(#ddd) }
 .class2 { .mixin(#555) }
 ```
 
-得到的结果为：
+Here's what we'll get:
 
 ```css
 .class1 {
@@ -42,24 +38,24 @@ In trying to stay as close as possible to the declarative nature of CSS, Less ha
 }
 ```
 
-### 1.Guard 比较运算符
+### Guard Comparison Operators
 
-在guard中可用的所有比较运算符：`>`，`> =`，`=`，`= <`，`<`。 此外，关键字 `true`是唯一的真值，以下两个mixin等价：
+The full list of comparison operators usable in guards are: `>`, `>=`, `=`, `=<`, `<`. Additionally, the keyword `true` is the only truthy value, making these two mixins equivalent:
 
 ```less
 .truth (@a) when (@a) { ... }
 .truth (@a) when (@a = true) { ... }
 ```
 
-除关键字“true”以外的任何值都是假的：
+Any value other than the keyword `true` is falsy:
 
 ```less
 .class {
-  .truth(40); // 不符合上述任何一个定义。
+  .truth(40); // Will not match any of the above definitions.
 }
 ```
 
-请注意，也可以参数相互比较或者与非参数比较：
+Note that you can also compare arguments with each other, or with non-arguments:
 
 ```less
 @media: mobile;
@@ -71,38 +67,38 @@ In trying to stay as close as possible to the declarative nature of CSS, Less ha
 .max (@a; @b) when (@a < @b) { width: @b }
 ```
 
-### 2.Guard 逻辑运算符
+### Guard Logical Operators
 
-您可以使用guard逻辑运算符。 该语法基于CSS媒体查询。
+You can use logical operators with guards. The syntax is based on CSS media queries.
 
-使用`and和`关键字组合guard：
+Use the `and` keyword to combine guards:
 
 ```less
 .mixin (@a) when (isnumber(@a)) and (@a > 0) { ... }
 ```
 
-可以通过用逗号`,`分隔guard来模拟*or*操作符。 如果任何一名guards为真，则认为是匹配：
+You can emulate the *or* operator by separating guards with a comma `,`. If any of the guards evaluate to true, it's considered a match:
 
 ```less
 .mixin (@a) when (@a > 10), (@a < -10) { ... }
 ```
 
-使用`not`关键字否定条件：
+Use the `not` keyword to negate conditions:
 
 ```less
 .mixin (@b) when not (@b > 0) { ... }
 ```
 
-### 3.类型检查功能
+### Type Checking Functions
 
-最后，如果你想基于值类型来匹配mixins，你可以使用`is`函数：
+Lastly, if you want to match mixins based on value type, you can use the `is` functions:
 
 ```less
 .mixin (@a; @b: 0) when (isnumber(@b)) { ... }
 .mixin (@a; @b: black) when (iscolor(@b)) { ... }
 ```
 
-这里是基本的类型检查功能：
+Here are the basic type checking functions:
 
 * `iscolor`
 * `isnumber`
@@ -110,18 +106,18 @@ In trying to stay as close as possible to the declarative nature of CSS, Less ha
 * `iskeyword`
 * `isurl`
 
-如果你想检查一个值是否在一个特定的单位，除了是一个数字，你可以使用以下：
+If you want to check if a value is in a specific unit in addition to being a number, you may use one of:
 
 * `ispixel`
 * `ispercentage`
 * `isem`
 * `isunit`
 
-### 4.附带条件的 Mixins
+### Conditional Mixins
 
-_(**FIXME**)_此外，可以使用`default`函数使一个mixin匹配依赖于另一个mixin匹配，可以使用它来创建类似于`else` 或`default`的“条件mixins” 语句（分别是 `if`和`case`结构）：
+_(**FIXME**)_ Additionally, the `default` function may be used to make a mixin match depending on other mixing matches, and you may use it to create "conditional mixins" similar to `else` or `default` statements (of `if` and `case` structures respectively):
 
 ```less
 .mixin (@a) when (@a > 0) { ...  }
-.mixin (@a) when (default()) { ... } // 只有当第一个mixin不匹配，即@a <= 0时才匹配
+.mixin (@a) when (default()) { ... } // matches only if first mixin does not, i.e. when @a <= 0
 ```

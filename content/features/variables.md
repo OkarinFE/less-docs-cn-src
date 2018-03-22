@@ -2,11 +2,11 @@
 title: Variables
 ---
 
-> 将常用的属性值提取出来。
+> Control commonly used values in a single location.
 
-### 1.概述
+### Overview
 
-在样式表中看到相同的属性值重复许多次_甚至上百次_，这并不是罕见的情况：
+It's not uncommon to see the same value repeated dozens _if not hundreds of times_ across your stylesheets:
 
 ```css
 a,
@@ -19,14 +19,14 @@ a,
 }
 ```
 
-使用变量将这些属性值提取到一个地方会使代码变得更易于维护：
+Variables make your code easier to maintain by giving you a way to control those values from a single location:
 
 ```less
-// 定义变量
-@link-color:        #428bca; // 海蓝色
+// Variables
+@link-color:        #428bca; // sea blue
 @link-color-hover:  darken(@link-color, 10%);
 
-// 使用方法
+// Usage
 a,
 .link {
   color: @link-color;
@@ -40,26 +40,27 @@ a:hover {
 }
 ```
 
-### 2.变量插补
+### Variable Interpolation
 
-上面例子中，着重于使用变量提取_CSS规则中的属性值_，其实变量也可以在其他地方使用，例如选择器名称，URL，以及“@ import”语句。
+The examples above focused on using variables to control _values in CSS rules_, but they can also be used in other places as well, such as selector names, property names, URLs and `@import` statements.
 
-#### 2-1.选择器
+
+#### Selectors
 
 Version: 1.4.0
 
 ```less
-// 定义变量
+// Variables
 @my-selector: banner;
 
-// 使用方法
+// Usage
 .@{my-selector} {
   font-weight: bold;
   line-height: 40px;
   margin: 0 auto;
 }
 ```
-编译为：
+Compiles to:
 
 ```css
 .banner {
@@ -69,38 +70,38 @@ Version: 1.4.0
 }
 ```
 
-### 3.URLs
+### URLs
 
 ```less
-// 定义变量
+// Variables
 @images: "../img";
 
-// 使用方法
+// Usage
 body {
   color: #444;
   background: url("@{images}/white-sand.png");
 }
 ```
 
-#### 3-1.声明import
+#### Import Statements
 
 Version: 1.4.0
 
-语法： `@import "@{themes}/tidal-wave.less";`
+Syntax: `@import "@{themes}/tidal-wave.less";`
 
-请注意，在v2.0.0之前，只允许在根目录或当前作用域内声明的变量，并且只能在当前文件和调用文件中查找变量。
+Note that before v2.0.0, only variables which have been declared in the root or current scope were considered and that only the current file and calling files were considered when looking for a variable.
 
-例如:
+Example:
 
 ```less
-// 定义变量
+// Variables
 @themes: "../../src/themes";
 
-// 使用方法
+// Usage
 @import "@{themes}/tidal-wave.less";
 ```
 
-#### 3-2.属性
+#### Properties
 
 Version: 1.6.0
 
@@ -113,7 +114,7 @@ Version: 1.6.0
 }
 ```
 
-编译为：
+Compiles to:
 
 ```css
 .widget {
@@ -122,9 +123,9 @@ Version: 1.6.0
 }
 ```
 
-### 4.变量名定义
+### Variable Names
 
-也可以使用一个变量来定义变量名称：
+It is also possible to define variables with a variable name:
 
 ```less
 @fnord:  "I am fnord.";
@@ -132,7 +133,7 @@ Version: 1.6.0
 content: @@var;
 ```
 
-编译为：
+Which compiles to:
 
 ```
 content: "I am fnord.";
@@ -140,11 +141,11 @@ content: "I am fnord.";
 
 <span class="anchor-target" id="variables-feature-lazy-loading"></span>
 <!-- ^ please keep old anchor to not break zillion outer links -->
-### 5.惰性加载
+### Lazy Evaluation
 
-> 变量可以惰性加载，不必在使用之前进行声明。
+> Variables are lazy evaluated and do not have to be declared before being used.
 
-合法的Less语法：
+Valid Less snippet:
 
 ```less
 .lazy-eval {
@@ -154,7 +155,7 @@ content: "I am fnord.";
 @var: @a;
 @a: 9%;
 ```
-同样合法:
+this is valid Less too:
 
 ```less
 .lazy-eval-scope {
@@ -165,7 +166,7 @@ content: "I am fnord.";
 @var: @a;
 @a: 100%;
 ```
-都会被编译为：
+both compile into:
 
 ```css
 .lazy-eval-scope {
@@ -173,8 +174,9 @@ content: "I am fnord.";
 }
 ```
 
-当同一个变量被定义两次，第二次定义的变量将会生效，并从当前作用域开始向上查找，这与CSS中定义的最后一个属性值会被使用的规则类似。
-例如：
+When defining a variable twice, the last definition of the variable is used, searching from the current scope upwards. This is similar to CSS itself where the last property inside a definition is used to determine the value.
+
+For instance:
 
 ```less
 @var: 0;
@@ -188,7 +190,7 @@ content: "I am fnord.";
   one: @var;
 }
 ```
-编译为：
+Compiles to:
 
 ```css
 .class {
@@ -199,9 +201,9 @@ content: "I am fnord.";
 }
 ```
 
-### 6.变量默认值
+### Default Variables
 
-我们有时候会需要设置变量默认值 - 只有变量在尚未使用的情况下才能设置。 此功能不是必需的，因为你可以地通过之后的定义来覆盖默认变量。
+We sometimes get requests for default variables - an ability to set a variable only if it is not already set. This feature is not required because you can easily override a variable by putting the definition afterwards.
 
 For instance:
 
@@ -210,9 +212,9 @@ For instance:
 @base-color: green;
 @dark-color: darken(@base-color, 10%);
 
-// 使用library
+// use of library
 @import "library.less";
 @base-color: red;
 ```
 
-其原作机制是因为 [惰性加载](#variables-feature-lazy-loading) - base-color 会被覆盖 and dark-color 将会是深红色。
+This works fine because of [Lazy Loading](#variables-feature-lazy-loading) - base-color is overridden and dark-color is a dark red.

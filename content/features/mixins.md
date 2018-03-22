@@ -1,6 +1,6 @@
-> 从现有样式的“混入”属性
+> "mix-in" properties from existing styles
 
-您可以混入类选择器和ID选择器，例如
+You can mix-in class selectors and id selectors, e.g.
 
 ```less
 .a, #b {
@@ -13,7 +13,7 @@
   #b();
 }
 ```
-编译为
+which results in:
 ```css
 .a, #b {
   color: red;
@@ -26,17 +26,17 @@
 }
 ```
 
-请注意，当您调用mixin时，括号是可选的。
+Notice that when you call the mixin, the parentheses are optional.
 
 ```less
-// 这两个写法效果相同：
+// these two statements do the same thing:
 .a(); 
 .a;
 ```
 
-## 1.不输出Mixin
+## Not Outputting the Mixin
 
-如果你想创建一个mixin，但你不想要输出mixin本身，你可以在后面加上括号。
+If you want to create a mixin but you do not want that mixin to be output, you can put parentheses after it.
 
 ```less
 .my-mixin {
@@ -50,7 +50,7 @@
   .my-other-mixin;
 }
 ```
-编译为
+outputs
 
 ```css
 .my-mixin {
@@ -62,11 +62,11 @@
 }
 ```
 
-## 2.Mixins中的选择器
+## Selectors in Mixins
 
-Mixins不仅可以包含属性，还可以包含选择器。
+Mixins can contain more than just properties, they can contain selectors too.
 
-例子：
+For example:
 
 ```less
 .my-hover-mixin() {
@@ -79,7 +79,7 @@ button {
 }
 ```
 
-编译为
+Outputs
 
 ```css
 button:hover {
@@ -87,9 +87,9 @@ button:hover {
 }
 ```
 
-## 3.命名空间
+## Namespaces
 
-如果你想在更复杂的选择器中混入属性，你可以堆叠多个id或类。
+If you want to mixin properties inside a more complicated selector, you can stack up multiple id's or classes.
 
 ```less
 #outer {
@@ -103,10 +103,10 @@ button:hover {
 }
 ```
 
- `>` 和空格是可选的
+and again both `>` and whitespace are optional
 
 ```less
-// 全部都是同样的效果
+// all do the same thing
 #outer > .inner;
 #outer > .inner();
 #outer .inner;
@@ -115,9 +115,9 @@ button:hover {
 #outer.inner();
 ```
 
-这种使用称为命名空间。 你可以把你的mixin放在一个id选择器下，这样可以确保它不会和另一个库冲突。
+One use of this is known as namespacing. You can put your mixins under a id selector and this makes sure it won't conflict with another library.
 
-例子：
+Example:
 
 ```less
 #my-library {
@@ -125,15 +125,15 @@ button:hover {
     color: black;
   }
 }
-// 可以这样使用
+// which can be used like this
 .class {
   #my-library > .my-mixin();
 }
 ```
 
-## 4.命名空间警戒
+## Guarded Namespaces
 
-如果名称空间有一个警戒，那么只有在警戒条件返回true的情况下才能使用定义的mixins。 命名空间警戒的评估方式与mixin上的警戒完全相同，所以接下来的两个mixin的工作方式相同：
+If namespace have a guard, mixins defined by it are used only if guard condition returns true. Namespace guard is evaluated exactly the same way as guard on mixin, so next two mixins work the same way:
 
 ```less
 #namespace when (@mode=huge) {
@@ -145,7 +145,7 @@ button:hover {
 }
 ```
 
-对于所有嵌套的命名空间和mixin，`default`函数被假定为相同的值。 mixin从来没有被评估过，其中一个警戒保证是假的：
+The `default` function is assumed to have the same value for all nested namespaces and mixin. Following mixin is never evaluated, one of its guards is guaranteed to be false:
 
 ```less
 #sp_1 when (default()) {
@@ -155,11 +155,11 @@ button:hover {
 }
 ```
 
-## 5.`!important` 关键词
+## The `!important` keyword
 
-mixin调用后使用`！important`关键字来标记所有由它继承的属性为：`!important`：
+Use the `!important` keyword after mixin call to mark all properties inherited by it as `!important`:
 
-例子：
+Example:
 
 ```less
 .foo (@bg: #f5f5f5, @color: #900) {
@@ -174,7 +174,7 @@ mixin调用后使用`！important`关键字来标记所有由它继承的属性�
 }
 ```
 
-编译为
+Results in:
 
 ```css
 .unimportant {

@@ -1,15 +1,14 @@
-> 组合属性
+> Combine properties
 
-`merge`功能允许将多个属性的值汇总到单个属性下的逗号或空格分隔列表中。 `merge`对于诸如背景和变换之类的属性非常有用的。
+The `merge` feature allows for aggregating values from multiple properties into a comma or space separated list under a single property. `merge` is useful for properties such as background and transform.
 
+### Comma
 
-### 1.逗号
+> Append property value with comma
 
-> 用逗号追加属性值
+Released [v1.5.0]({{ less.master.url }}CHANGELOG.md)
 
-发布 [v1.5.0]({{ less.master.url }}CHANGELOG.md)
-
-示例：
+Example:
 
 ```less
 .mixin() {
@@ -20,7 +19,7 @@
   box-shadow+: 0 0 20px black;
 }
 ```
-编译为
+Outputs
 
 ```css
 .myclass {
@@ -28,13 +27,13 @@
 }
 ```
 
-### 2.空格
+### Space
 
-> 用空格追加属性值
+> Append property value with space
 
-发布 [v1.7.0]({{ less.master.url }}CHANGELOG.md)
+Released [v1.7.0]({{ less.master.url }}CHANGELOG.md)
 
-示例：
+Example:
 
 ```less
 .mixin() {
@@ -45,7 +44,7 @@
   transform+_: rotate(15deg);
 }
 ```
-编译为
+Outputs
 
 ```css
 .myclass {
@@ -53,4 +52,4 @@
 }
 ```
 
-为了避免任何不必要的连接，`merge`需要在每个连接等待声明中都显式地使用 `+`'或`+_`标志。
+To avoid any unintentional joins, `merge` requires an explicit `+` or `+_` flag on each join pending declaration.

@@ -1,8 +1,8 @@
-> 从mixin返回变量或mixin
+> Return variables or mixins from mixins
 
-在mixin中定义的变量和mixin是可见的，可用于调用者的作用域。 只有一个例外，如果调用者包含相同名称的变量（包括在另一个mixin调用中定义的变量）时，变量不会被复制。 只有调用者本地作用域中的变量才受保护。 从父范围继承的变量会被覆盖。
+Variables and mixins defined in a mixin are visible and can be used in caller's scope. There is only one exception, a variable is not copied if the caller contains a variable with the same name (that includes variables defined by another mixin call).  Only variables present in callers local scope are protected. Variables inherited from parent scopes are overridden.
 
-例子：
+Example:
 
 ```less
 .mixin() {
@@ -17,7 +17,7 @@
 }
 
 ```
-编译为
+Results in:
 
 ```css
 .caller {
@@ -28,9 +28,7 @@
 
 Thus variables defined in a mixin can act as its return values. This allows us to create a mixin that can be used almost like a function.
 
-因此，在mixin中定义的变量可以作为其返回值。 这使我们可以像创建函数一样创建一个mixin。
-
-例子：
+Example:
 
 ```less
 .average(@x, @y) {
@@ -38,12 +36,12 @@ Thus variables defined in a mixin can act as its return values. This allows us t
 }
 
 div {
-  .average(16px, 50px); // "调用" mixin
-  padding: @average;    // 使用其"返回"值
+  .average(16px, 50px); // "call" the mixin
+  padding: @average;    // use its "return" value
 }
 ```
 
-编译为
+Results in:
 
 ```css
 div {
@@ -51,8 +49,8 @@ div {
 }
 ```
 
-在当前作用域中定义的变量不能被覆盖。 但是，在其父作用域中定义的变量不受保护并会被覆盖：
-
+Variables defined directly in callers scope cannot be overridden. However, variables defined in callers parent scope is not protected and will be
+overridden:
 ````less
 .mixin() {
   @size: in-mixin;
@@ -64,32 +62,31 @@ div {
   .mixin();
 }
 
-@size: globaly-defined-value; // 调用者父作用域 - 不受保护
+@size: globaly-defined-value; // callers parent scope - no protection
 ````
 
-编译为
+Results in:
 ````css
 .class {
   margin: in-mixin in-mixin;
 }
 ````
 
-最后，mixin中定义的mixin也作为返回值：
-
+Finally, mixin defined in mixin acts as return value too:
 ````less
-.unlock(@value) { // 外层 mixin
-  .doSomething() { // 嵌套 mixin
+.unlock(@value) { // outer mixin
+  .doSomething() { // nested mixin
     declaration: @value;
   }
 }
 
 #namespace {
   .unlock(5); // unlock doSomething mixin
-  .doSomething(); //嵌套的mixin被复制到这里，可用
+  .doSomething(); //nested mixin was copied here and is usable
 }
 ````
 
-编译为：
+Results in:
 ````css
 #namespace {
   declaration: 5;

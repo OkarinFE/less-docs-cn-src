@@ -1,30 +1,30 @@
-> 允许在mixin中定义一个包裹的css块
+> Allow wrapping of a css block, defined in a mixin
 
-发布 [v1.7.0]({{ less.master.url }}CHANGELOG.md)
+Released [v1.7.0]({{ less.master.url }}CHANGELOG.md)
 
-分离的规则集是一组css属性，嵌套的规则集，媒体查询或存储在变量中的其他内容。 你可以将它包含到一个规则集或其他结构中，它所有的属性都将被复制到过去。 你也可以用它作为一个mixin参数，并把它作为任何其他变量传递。
+A detached ruleset is a group of css properties, nested rulesets, media declarations or anything else stored in a variable. You can include it into a ruleset or another structure and all its properties are going to be copied there. You can also use it as a mixin argument and pass it around as any other variable.
 
-例子：
+Simple example:
 ````less
-// 声明分离的规则集
+// declare detached ruleset
 @detached-ruleset: { background: red; };
 
-// 使用分离的规则集
+// use detached ruleset
 .top {
     @detached-ruleset(); 
 }
 ````
 
-编译为：
+compiles into:
 ````css
 .top {
   background: red;
 }
 ````
 
-调用分离的规则集必需使用括号。 不能用`@ detached-ruleset;`调用。
+Parentheses after a detached ruleset call are mandatory. The call `@detached-ruleset;` would NOT work.
 
-当你想要定义一个mixin来抽象出在媒体查询中包含的一段代码或者不支持的浏览器类名时， 规则集可以传递给mixin，以便mixin可以包裹内容。
+It is useful when you want to define a mixin that abstracts out either wrapping a piece of code in a media query or a non-supported browser class name. The rulesets can be passed to mixin so that the mixin can wrap the content, e.g.
 
 ```less
 .desktop-and-old-ie(@rules) {
@@ -41,7 +41,7 @@ header {
 }
 ```
 
-这里`desktop-and-old-ie` mixin定义了媒体查询和根class，这样你就可以使用一个mixin来包裹一段代码。编译为
+Here the `desktop-and-old-ie` mixin defines the media query and root class so that you can use a mixin to wrap a piece of code. This will output
 
 ```css
 header {
@@ -57,7 +57,7 @@ html.lt-ie9 header {
 }
 ```
 
-一个规则集可以立刻分配给一个变量，或者被传递给一个混合，并且可以包含一整套Less特征，
+A ruleset can be now assigned to a variable or passed in to a mixin and can contain the full set of Less features, e.g.
 
 ```less
 @my-ruleset: {
@@ -67,7 +67,8 @@ html.lt-ie9 header {
   };
 ```
 
-你甚至可以使用 [媒体查询冒泡](#features-overview-feature-media-query-bubbling-and-nested-media-queries)， 例如
+You can even take advantage of [media query bubbling](#features-overview-feature-media-query-bubbling-and-nested-media-queries), for instance
+
 ```less
 @my-ruleset: {
     .my-selector {
@@ -81,7 +82,7 @@ html.lt-ie9 header {
 }
 ```
 
-编译为
+which will output
 
 ```css
 @media (orientation: portrait) and tv {
@@ -91,61 +92,61 @@ html.lt-ie9 header {
 }
 ```
 
-分离的规则集调用解锁（返回）与mixin调用将其所有mixin解锁（调用）到调用者中是相同的方式。 但是，它不返回变量。
+A detached ruleset call unlocks (returns) all its mixins into caller the same way as mixin calls do. However, it does NOT return variables.
 
-返回 mixin:
+Returned mixin:
 ````less
-// 带mixin的分离规则集
+// detached ruleset with a mixin
 @detached-ruleset: { 
     .mixin() {
         color:blue;
     }
 };
-// 调用分离的规则集
+// call detached ruleset
 .caller {
     @detached-ruleset(); 
     .mixin();
 }
 ````
 
-编译为：
+Results in:
 ````css
 .caller {
   color: blue;
 }
 ````
 
-私有变量：
+Private variables:
 ````less
 @detached-ruleset: { 
-    @color:blue; //这是个私有变量
+    @color:blue; // this variable is private
 };
 .caller {
-    color: @color; // 语法报错
+    color: @color; // syntax error
 }
 ````
 
-## 1.作用域
-一个分离的规则集可以使用所有的变量和mixin，它们在*被定义*和*被调用*处被访问。即定义和调用者作用域都可用。 如果两个作用域都包含相同的变量或mixin，则当前声明的作用域中的值优先。
+## Scoping
+A detached ruleset can use all variables and mixins accessible where it is *defined* and where it is *called*. Otherwise said, both definition and caller scopes are available to it. If both scopes contains the same variable or mixin, declaration scope value takes precedence. 
 
-*声明作用域*被定义为分离规则主题。将分离规则集从一个变量复制到另一个变量时，不能修改其范围。 规则集不能仅通过在那里引用就可访问新的作用域。
+*Declaration scope* is the one where detached ruleset body is defined. Copying a detached ruleset from one variable into another cannot modify its scope. The ruleset does not gain access to new scopes just by being referenced there.
 
-最后，分离的规则集可以通过解锁（导入）的方式来访问作用域。
+Lastly, a detached ruleset can gain access to scope by being unlocked (imported) into it.
 
-#### 1-1.定义和调用作用域可见性
-分离的规则集可以看到调用者的变量和mixin：
+#### Definition and Caller Scope Visibility
+A detached ruleset sees the caller's variables and mixins:
 
 ````less
 @detached-ruleset: {
-  caller-variable: @caller-variable; // 变量在这里未定义
-  .caller-mixin(); // mixin在这里未定义
+  caller-variable: @caller-variable; // variable is undefined here
+  .caller-mixin(); // mixin is undefined here
 };
 
 selector {
-  // 使用分离规则集
+  // use detached ruleset
   @detached-ruleset(); 
 
-  // 在分离的规则集内定义需要的变量和mixin
+  // define variable and mixin needed inside the detached ruleset
   @caller-variable: value;
   .caller-mixin() {
     variable: declaration;
@@ -153,7 +154,7 @@ selector {
 }
 ````
 
-编译为
+compiles into:
 ````css
 selector {
   caller-variable: value;
@@ -161,38 +162,37 @@ selector {
 }
 ````
 
-变量和mixins可访问到的外部定义优先于调用者中可用的定义：
-
+Variable and mixins accessible form definition win over those available in the caller:
 ````less
 @variable: global;
 @detached-ruleset: {
-  // 使用全局变量，因为其可以访问
-  // 从分离规则集定义
+  // will use global variable, because it is accessible
+  // from detached-ruleset definition
   variable: @variable; 
 };
 
 selector {
   @detached-ruleset();
-  @variable: value; // 在调用者中定义的变量将被忽略
+  @variable: value; // variable defined in caller - will be ignored
 }
 ````
 
-编译为：
+compiles into:
 ````css
 selector {
   variable: global;
 }
 ````
 
-#### 1-2.引用*不会*修改分离规则集的作用域
-规则集不能仅仅通过引用而访问新的作用域：
+#### Referencing *Won't* Modify Detached Ruleset Scope
+A ruleset does not gain access to new scopes just by being referenced there:
 ````less
 @detached-1: { scope-detached: @one @two; };
 .one {
   @one: visible;
   .two {
-    @detached-2: @detached-1; // 复制/重命名规则集
-    @two: visible; // 规则集不能访问这个变量
+    @detached-2: @detached-1; // copying/renaming ruleset 
+    @two: visible; // ruleset can not see this variable
   }
 }
 
@@ -202,32 +202,32 @@ selector {
 }
 ````
 
-报错：
+throws an error:
 ````
 ERROR 1:32 The variable "@one" was not declared.
 ````
 
-#### 1-3.解锁*将*修改分离规则集的作用域
-分离的规则集通过在范围内解锁（导入）来获得访问权限：
+#### Unlocking *Will* Modify Detached Ruleset Scope
+A detached ruleset gains access by being unlocked (imported) inside a scope:
 ````less
 #space {
   .importer-1() {
-    @detached: { scope-detached: @variable; }; // 定义分离规则集
+    @detached: { scope-detached: @variable; }; // define detached ruleset
   }
 }
 
 .importer-2() {
-  @variable: value; // 解锁分离的规则集CAN可以看到这个变量
-  #space > .importer-1(); // 解锁/导入分离的规则集
+  @variable: value; // unlocked detached ruleset CAN see this variable
+  #space > .importer-1(); // unlock/import detached ruleset
 }
 
 .use-place {
-  .importer-2(); // 再次解锁/导入分离的规则集
+  .importer-2(); // unlock/import detached ruleset second time
    @detached();
 }
 ````
 
-编译为：
+compiles into:
 ````css
 .use-place {
   scope-detached: value;
