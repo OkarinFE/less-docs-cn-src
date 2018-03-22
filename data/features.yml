@@ -12,61 +12,57 @@ base: content/features
 # Published documenation
 published:
   features-overview:
-    title: Overview
+    title: 概览
     lead:  Simple overview of the basic features
-    files: <%= features.base %>/overview.md
+    files: content/features-overview.md
 
   variables:
-    title: Variables
+    title: 变量
     files: <%= features.base %>/variables.md
 
-  parent-selectors:
-    title: Parent Selectors
-    files: <%= features.base %>/parent-selectors.md
-
   extend:
-    title: Extend
+    title: 继承
     files: <%= features.base %>/extend.md
-
-  merge:
-    title: Merge
-    files: <%= features.base %>/merge.md
 
   mixins:
     title: Mixins
     files: <%= features.base %>/mixins.md
-    subs:
-      mixins-parametric:
-        title: Parametric Mixins
-        files: <%= features.base %>/mixins-parametric.md
 
-      mixins-as-functions:
-        title: Return values from mixins
-        files: <%= features.base %>/mixins-as-functions.md
+  mixins-parametric:
+    title: Mixins参数
+    files: <%= features.base %>/mixins-parametric.md
 
-      loops:
-        title: Recursive mixins
-        files: <%= features.base %>/mixin-loops.md
+  mixins-as-functions:
+    title: Mixins函数
+    files: <%= features.base %>/mixins-as-functions.md
 
-      mixin-guards:
-        title: Mixin Guards
-        files: <%= features.base %>/mixin-guards.md
+  detached-rulesets:
+    title: 将规则集传递给Mixins
+    files: <%= features.base %>/detached-rulesets.md
+
+  import-directives:
+    title: import指令
+    files: <%= features.base %>/import-directives.md
+
+  mixin-guards:
+    title: Mixin Guards
+    files: <%= features.base %>/mixin-guards.md
 
   css-guards:
     title: CSS Guards
     files: <%= features.base %>/css-guards.md
 
-  detached-rulesets:
-    title: Detached Rulesets
-    files: <%= features.base %>/detached-rulesets.md
+  loops:
+    title: 循环
+    files: <%= features.base %>/loops.md
 
-  import-atrules:
-    title: "@import At-Rules"
-    files: <%= features.base %>/imports.md
+  merge:
+    title: 合并
+    files: <%= features.base %>/merge.md
 
-  plugin-atrules:
-    title: "@plugin At-Rules <small>(NEW!)</small>"
-    files: <%= features.base %>/plugins.md
+  parent-selectors:
+    title: 父选择器
+    files: <%= features.base %>/parent-selectors.md
 
 
 # =============================================

@@ -1,17 +1,17 @@
 ---
-title: Functions
+title: 函数
 slug: functions
-lead: Function reference
+lead: 函数手册
 ---
 
 {{!-- Functions
 ================================================== --}}
 
 <div class="docs-section">
-  <div class="">
-    <h1 id="functions-overview">Functions</h1>
+  <div class="page-header">
+    <h1 id="functions-overview">函数</h1>
   </div>
-  <p class="lead">Built-in functions supported by Less.</p>
+  <p class="lead">Less支持的内置函数。</p>
 </div>
 
 
@@ -19,8 +19,9 @@ lead: Function reference
 {{#each functions.published}}
   <!-- {{title}} -->
   <div class="docs-section">
-    
-    <h1 id="{{@key}}">{{title}}</h1>
+    <div class="page-header">
+      <h1 id="{{@key}}">{{title}}</h1>
+    </div>
 
     {{#each (expand files)}}
     <div class="section-content">

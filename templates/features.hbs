@@ -1,53 +1,30 @@
 ---
-title: Features In-Depth
-lead: Features of the Less language
+title: 语言特性
+lead: Less的语言特性
 slug: features
 ---
 
 {{#each features.published}}
   <!-- {{title}} -->
   <div class="docs-section">
-    
-    <h1 id="{{@key}}-feature">{{{title}}}</h1>
-    
+    <div class="page-header">
+      <h1 id="{{@key}}-feature">{{title}}</h1>
+    </div>
 
     {{#each (expand files)}}
-      
-      <div class="section-content">
-        {{> popover-source-link . }}
+    <div class="section-content">
+      {{> popover-source-link . }}
 
-        <!-- {{basename .}} -->
-        {{success '>> Inlining:' (basename .)}} {{! log a success message! }}
-
-
-        {{#markdown}}
-        {{inline .}}
-        {{/markdown}}
-
-        <br>
-      </div>
-    {{/each}}
-
-    {{#each subs}}
-
-      <!-- {{title}} -->
-      <h2 id="{{@key}}-feature">{{{title}}}</h2>
-      
-      {{#each (expand files)}}
-        <div class="section-content">
-          {{> popover-source-link . }}
-
-          <!-- {{basename .}} -->
-          {{success '>> Inlining:' (basename .)}} {{! log a success message! }}
+      <!-- {{basename .}} -->
+      {{success '>> Inlining:' (basename .)}} {{! log a success message! }}
 
 
-          {{#markdown}}
-          {{inline .}}
-          {{/markdown}}
+{{#markdown}}
+{{inline .}}
+{{/markdown}}
 
-          <br>
-        </div>
-      {{/each}}
+      <br>
+    </div>
     {{/each}}
 
   </div>
